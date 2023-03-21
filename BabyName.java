@@ -43,7 +43,6 @@ public class BabyName {
 
     // TODO 3: Write the code below this line.
     public void addData(ArrayList<Integer> numBirthArr, ArrayList<Integer> numYearArr){
-        //this is not where you were sharty, try to set it up in one loop
         for(int elem=0;elem<numYearArr.size();elem++){
             years.add(numYearArr.get(elem));
             birthCounts.add(numBirthArr.get(elem));
