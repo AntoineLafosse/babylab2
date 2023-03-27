@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileReader;
 public class BabyNameDatabase {
 
     // TODO 1: Write the code below this line.
@@ -32,13 +33,15 @@ public class BabyNameDatabase {
      */
     public void readRecordsFromBirthDataFile(String filename) throws IOException {
         // TODO 2: Write the code below this line.
-        Scanner fileReader = new Scanner(databaseFileName);
+        FileReader readFile=new FileReader(filename);
+        Scanner fileReader = new Scanner(readFile);
         String fakeBabyYear = filename.replace("BabyNames", "");
         fakeBabyYear = fakeBabyYear.replace(".csv", "");
         int babyYear = Integer.parseInt(fakeBabyYear);
         while (fileReader.hasNextLine()) {
             String lineChecked = fileReader.nextLine();
             Scanner lineReader = new Scanner(lineChecked);
+            lineReader.useDelimiter(",");
             if (lineReader.hasNextInt()) {
                 processLineFromBirthDataFile(lineChecked, babyYear);
             }
@@ -66,12 +69,26 @@ public class BabyNameDatabase {
         String name = lineReader.next();
         BabyName boyName = new BabyName(name, GenderOfName.MALE);
         //Because the commas and quotations were removed. To read the number we have to combine the 2 separated numbers into one
-        String numBirths = lineReader.next() + lineReader.next();
+        String checkNum=lineReader.next();
+        String numBirths;
+        if(checkNum.length()<=3){
+            numBirths = checkNum + lineReader.next();
+        }
+        else{
+            numBirths= ""+checkNum;
+        }
         //reads second name and sets it as girl name.
         String name2 = lineReader.next();
         BabyName girlName = new BabyName(name2, GenderOfName.FEMALE);
         //reads second number of births for girl name
-        String numBirths2 = lineReader.next() + lineReader.next();
+        String checkNum2=lineReader.next();
+        String numBirths2;
+        if(checkNum2.length()<=3){
+             numBirths2 = checkNum2 + lineReader.next();
+        }
+        else{
+            numBirths2= ""+checkNum2;
+        }
         //add all previously collected variables to records
         records.add(boyName);
         records.add(girlName);
