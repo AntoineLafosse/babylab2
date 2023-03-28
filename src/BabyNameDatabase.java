@@ -60,8 +60,6 @@ public class BabyNameDatabase {
         Scanner lineReader = new Scanner(line);
         lineReader.useDelimiter("    ");
         //remove quotes from all numbers for equality
-        lineReader.useDelimiter("\"");
-        //remove commas from big numbers
         lineReader.useDelimiter(",");
         //removes ranking number
         lineReader.next();
@@ -71,7 +69,9 @@ public class BabyNameDatabase {
         //Because the commas and quotations were removed. To read the number we have to combine the 2 separated numbers into one
         String checkNum=lineReader.next();
         String numBirths;
-        if(checkNum.length()<=3){
+        if(checkNum.contains("\"")){
+            Scanner splitNum=new Scanner(checkNum);
+            splitNum.useDelimiter("\"");
             numBirths = checkNum + lineReader.next();
         }
         else{
@@ -83,8 +83,11 @@ public class BabyNameDatabase {
         //reads second number of births for girl name
         String checkNum2=lineReader.next();
         String numBirths2;
-        if(checkNum2.length()<=3){
-             numBirths2 = checkNum2 + lineReader.next();
+
+        if(checkNum2.contains("\"")){
+            Scanner splitNum=new Scanner(checkNum);
+            splitNum.useDelimiter("\"");
+            numBirths2 = checkNum2 + lineReader.next();
         }
         else{
             numBirths2= ""+checkNum2;

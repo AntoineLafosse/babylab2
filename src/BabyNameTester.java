@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 /**
  * Tests the BabyName lab.
@@ -17,12 +18,13 @@ public class BabyNameTester {
             System.err.print("readRecordsFromBirthDataFile threw an IOException");
         }
         int count = 0;
-        for(BabyName name : p1.getRecords()){
-            if (name.getGender().equals(GenderOfName.NEUTRAL)){
+        for(BabyName name : p1.getRecords()) {
+            if (name.getGender().equals(GenderOfName.NEUTRAL)) {
                 System.out.println(name);
                 count++;
             }
         }
         System.out.println("count: " + count);
+        System.out.println(p1.getRecords());
     }
 }

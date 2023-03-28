@@ -41,6 +41,7 @@ public class BabyName {
         years.add(numYear);
     }
 
+
     // TODO 3: Write the code below this line.
     public void addData(ArrayList<Integer> numBirthArr, ArrayList<Integer> numYearArr){
         for(int elem=0;elem<numYearArr.size();elem++){
