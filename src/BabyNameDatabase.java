@@ -3,6 +3,7 @@
  * with the BabyNames.
  * @author __________
  */
+import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -58,8 +59,7 @@ public class BabyNameDatabase {
     public void processLineFromBirthDataFile(String line, int year) {
         // TODO 3: Write the code below this line.
         Scanner lineReader = new Scanner(line);
-        lineReader.useDelimiter("    ");
-        //remove quotes from all numbers for equality
+      //remove commas from big number
         lineReader.useDelimiter(",");
         //removes ranking number
         lineReader.next();
@@ -67,61 +67,46 @@ public class BabyNameDatabase {
         String name = lineReader.next();
         BabyName boyName = new BabyName(name, GenderOfName.MALE);
         //Because the commas and quotations were removed. To read the number we have to combine the 2 separated numbers into one
-        String checkNum=lineReader.next();
-        String numBirths;
-        if(checkNum.contains("\"")){
-            Scanner splitNum=new Scanner(checkNum);
-            splitNum.useDelimiter("\"");
-            numBirths = checkNum + lineReader.next();
+
+        String checkBirths=lineReader.next();
+        if (checkBirths.contains("\"")){
+            String[] removeQuote=checkBirths.split("\"");
+            checkBirths=removeQuote[1];
+            String checkLine=lineReader.next();
+            removeQuote=checkLine.split("\"");
+            checkLine=removeQuote[0];
+            checkBirths=""+checkBirths+checkLine;
         }
-        else{
-            numBirths= ""+checkNum;
-        }
+        int numBirths = Integer.parseInt(checkBirths);
+        boyName.addData(numBirths,year);
+        addToRecords(boyName);
         //reads second name and sets it as girl name.
         String name2 = lineReader.next();
         BabyName girlName = new BabyName(name2, GenderOfName.FEMALE);
         //reads second number of births for girl name
-        String checkNum2=lineReader.next();
-        String numBirths2;
-
-        if(checkNum2.contains("\"")){
-            Scanner splitNum=new Scanner(checkNum);
-            splitNum.useDelimiter("\"");
-            numBirths2 = checkNum2 + lineReader.next();
+        String checkBirths2=lineReader.next();
+        if (checkBirths2.contains("\"")){
+            String[] removeQuote=checkBirths2.split("\"");
+            checkBirths2=removeQuote[1];
+            String checkLine2=lineReader.next();
+            removeQuote=checkLine2.split("\"");
+            checkLine2=removeQuote[0];
+            checkBirths2=""+checkBirths2+checkLine2;
         }
-        else{
-            numBirths2= ""+checkNum2;
-        }
-        //add all previously collected variables to records
-        records.add(boyName);
-        records.add(girlName);
-        //searches records for duplicate girl names
-        for (BabyName elem : records) {
-            //if a duplicate is found, remove it
-            if (elem.getName().equals(girlName)) {
-                //might be a problem because numBirths2 and 1 are STRINGS not ints
-                elem.addData(Integer.parseInt(numBirths2 + 1), year);
-                records.remove(records.size() - 1);
-                //if the original name was male, set the gender of the name to neutral;
-                if (elem.getGender() == GenderOfName.MALE) {
-                    elem.setGender(GenderOfName.NEUTRAL);
+        int numBirths2 = Integer.parseInt(checkBirths2);
+        girlName.addData(numBirths2,year);
+        addToRecords(girlName);
+    }
+    public void addToRecords(BabyName babies){
+        for(BabyName babeName:records){
+            if(babeName.getName().equals(babies.getName())){
+                if(babeName.getGender() != babies.getGender()){
+                    babeName.setGender(GenderOfName.NEUTRAL);
                 }
+                babeName.addData(babies.getBirthCounts(),babies.getYears());
+                return;
             }
         }
-        //searches records for duplicate boy names
-        for (BabyName elem : records) {
-            //if a duplicate is found, remove it
-            if (elem.getName().equals(boyName)) {
-                //might be a problem because numBirths2 and 1 are STRINGS not ints
-                elem.addData(Integer.parseInt(numBirths + 1), year);
-                records.remove(records.size() - 1);
-                //if the original name was male, set the gender of the name to neutral;
-                if (elem.getGender() == GenderOfName.FEMALE) {
-                    elem.setGender(GenderOfName.NEUTRAL);
-                }
-
-
-            }
-        }
+        records.add(babies);
     }
 }
