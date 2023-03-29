@@ -41,7 +41,6 @@ public class BabyName {
         years.add(numYear);
     }
 
-
     // TODO 3: Write the code below this line.
     public void addData(ArrayList<Integer> numBirthArr, ArrayList<Integer> numYearArr){
         for(int elem=0;elem<numYearArr.size();elem++){
@@ -71,7 +70,7 @@ public class BabyName {
                 result.append("\nData: ");
             }
             else{
-                result.append(String.format("(%d, %d) "), birthCounts.get(i), years.get(i));
+                result.append(String.format("(%d, %d) ", birthCounts.get(i), years.get(i)));
             }
             if (i == years.size()-1){
                 result.deleteCharAt(result.length()-1); // Remove extra space
